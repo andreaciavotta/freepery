@@ -67,7 +67,6 @@ group :development do
   gem 'better_errors', '~> 2.7', '>= 2.7.1'
   gem 'guard', '~> 2.16', '>= 2.16.2'
   gem 'guard-livereload', '~> 2.5', '>= 2.5.2', require: false
-  gem 'rails-erd'
 end
 
 group :test do
