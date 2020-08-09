@@ -1,0 +1,50 @@
+<section class="form-auth text-center">
+    <h3 class="title is-2 has-text-black post-author">Post di <%= @post.account.username %></h3>
+    <div class="level">
+      <div class="level-center">
+        <% if account_signed_in? && current_account.id == @post.account_id || has_role?(:admin) %>
+        <div class="buttons">
+            <%= link_to 'Modifica', edit_post_path(@post), class:'button'%>
+            <%= link_to 'Cancella', post_path(@post), method: :delete, data: { confirm: "Cancellare il post?" }, class:'button' %>
+        </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="content">
+    <% if @post.postimage.attached? %>
+    <%= image_tag(@post.postimage) %>
+    <% end %>
+    <br><br>
+    <h4><%= @post.post %></h4></div>
+    <br>
+
+    <p><i class="fa fa-heart" aria-hidden="true"></i> <%= @post.likes.count %> likes
+    <% pre_like = @post.likes.find { |like| like.account_id == current_account.id} %>
+    <% if pre_like %>
+        <%= button_to 'Non mi piace più', post_like_path(@post, pre_like), method: :delete , class:"button is-link"%>
+    <% else %>
+        <%= button_to 'Mi piace', post_likes_path(@post), method: :post , class:"button is-link" %>
+    <% end %>
+    </p>
+    </div>
+    <br><br>
+    <h2 class="subtitle is-5 has-text-grey"><%= @post.replies.count %> commenti</h2>
+    <div id="post-replies">
+      <%= render @post.replies %>
+    </div></div></div><br>
+    <hr>
+    <br>
+    <h3 class="subtitle is-3 has-text-grey">Lascia un commento</h3>
+    <% if account_signed_in? %>
+      <%= render 'replies/form' %>
+    <% else %>
+    <p>Per rispondere devi <%= link_to 'login', new_account_session_path %>. Don't have an account?
+      <%= link_to 'Sign up', new_account_registration_path %> for one.</p>
+    <% end %>
+
+
+
+</div>
+</section>
+

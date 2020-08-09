@@ -1,0 +1,68 @@
+<section class="form-auth text-center">
+
+<h1 class="title is-4"> Messaggio privato ad <%= @conversation.recipient.username %></h1>
+
+<% if @over_ten %>
+  <%= link_to "Mostra precedenti", '?m=all', class:'button is-link' %>
+<% end %>
+
+<section id="messages" class="mb4">
+  <% @messages.each do |message| %>
+    <% if message.body %>
+      <% account = Account.find(message.account_id) %>
+      <% if account.id != current_account.id %>
+          <div class="columns">
+          <div class="column is-8">
+          <article class="message is-dark">
+            <div class="message-body">
+              <div class="inline-block nudge-down-10 pr2">
+                <%= gravatar_for account, size: 32 %>
+              </div>
+              <br>
+              <div class="inline-block">
+                <strong><%= account.username %></strong>
+                <div class="block pt4">
+                    <div class="f4"><%= message.body %></div>
+                    <br>
+                    <%= message.message_time %>
+                </div>
+             </div>
+          </div>
+        </article>
+        </div></div><br>
+        <% else %>
+        <div class="columns">
+          <div class="column is-8">
+          <article class="message is-dark">
+            <div class="message-body" style="background-color: rgba(80, 115, 220, 0.3);">
+              <div class="inline-block nudge-down-10 pr2">
+                <%= gravatar_for account, size: 32 %>
+              </div>
+              <br>
+              <div class="inline-block">
+                <strong><%= account.username %></strong>
+                <div class="block pt4">
+                    <div class="f4"><%= message.body %></div>
+                    <br>
+                    <%= message.message_time %>
+                </div>
+             </div>
+          </div>
+        </article>
+        </div></div><br>
+        <% end %>
+  <% end %>
+  <% end %>
+</section>
+
+<br><br>
+<%= simple_form_for([@conversation, @message], remote: true) do |f| %>
+  <%= f.text_area :body, class: "textarea", placeholder: "Inserisci un messaggio..." %>
+  <%= f.text_field :account_id, value: current_account.id, type: "hidden"  %>
+  <div class="text-align-right"><br>
+    <%= f.submit "Invia", class: "button is-link is-large mt3" %>
+  </div>
+</section>
+<% end %>
+
+

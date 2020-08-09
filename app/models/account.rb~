@@ -1,0 +1,31 @@
+class Account < ApplicationRecord
+
+  has_many :posts
+
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable,
+         :omniauthable, :omniauth_providers => [:facebook]
+  def self.from_omniauth(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |account|
+      account.email = auth.info.email
+      account.password = Devise.friendly_token[0,20]
+      #aggiunti i campi name, username per omniauth
+      account.first_name = auth.info.first_name
+      account.last_name = auth.info.last_name
+      account.username = auth.info.name
+      account.save!
+    end
+  end
+  def self.new_with_session(params, session)
+    super.tap do |account|
+      if data = session["devise.facebook_data"] && session["devise.facebook_data"]
+        ["extra"]["raw_info"]
+        account.email = data["email"] if account.email.blank?
+      end
+    end
+  end
+
+
+end

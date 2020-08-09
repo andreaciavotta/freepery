@@ -1,0 +1,20 @@
+<section class="form-auth text-center">
+<h1>Utenti nelle vicinanze</h1><br>
+<div style='width: 800px;'>
+        <div id="map" style='width: 800px; height: 400px;'></div>
+</div>
+</section>
+
+<script type="text/javascript">
+handler = Gmaps.build('Google');
+handler.buildMap({ provider: { zoom: 6, center: new google.maps.LatLng(42.938004, 12.621621), mapTypeId: google.maps.MapTypeId.ROADMAP}, internal: {id: 'map'}}, function(){
+    markers = handler.addMarkers(<%=raw @hash.to_json %>);
+    // to center on a marker
+    handler.map.centerOn(markers[0]);
+// to set the map zoom
+    handler.getMap().setZoom(6);
+    handler.bounds.extendWith(markers);
+    handler.fitMapToBounds();
+    handler.map.serviceObject.setZoom(6);
+});
+</script>

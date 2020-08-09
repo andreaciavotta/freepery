@@ -1,0 +1,60 @@
+<div class="column is-7">
+  <% if account_signed_in? %>
+	<article class="media box">
+		<figure class="media-left">
+			<p class="image is-64x64">
+				<%= gravatar_image_tag(current_account.email, size: 64, alt: current_account.name) %>
+			</p>
+		</figure>
+		<div class="media-content">
+			 <%= render 'posts/form' %>
+		</div>
+	</article>
+  <% end %>
+
+
+<% @posts.each do | post | %>
+  <div class="box">
+  	<article class="media">
+  		<div class="media-left">
+  			<figure class="image is-64x64">
+  				<%= gravatar_image_tag(post.account.email, size: 64, alt: post.account.name) %>
+  			</figure>
+  		</div>
+  		<div class="media-content">
+  			<div class="content">
+  				<strong><%=link_to(post.account.first_name + " " + post.account.last_name, profile_path(post.account_id) )%></strong><br />
+  				<small><%= post.account.username %></small><br/>
+  				<p><h3><%= post.post %></h3></p>
+                <% if post.postimage.attached? %>
+                <%= image_tag(post.postimage, size: "400x500") %>
+                <% end %>
+                <br>
+                <p><em><small>Posted <%= time_ago_in_words(post.created_at) %> ago</small></em></p>
+  			</div>
+        <nav class="level">
+  				<div class="level-left is-mobile">
+                    <%= link_to post, class: "level-item" do %>
+                     <h1 class="subtitle is-5 has-text-grey"><%= post.replies.count %> commenti <i class="fa fa-heart" aria-hidden="true"></i>   <%= post.likes.count %> "Mi piace"</h1>
+                      <% end %>
+                </div>
+        <% if account_signed_in? && current_account.id == post.account_id || has_role?(:admin) %>
+  			<nav class="level">
+  				<div class="level-left is-mobile">
+  					<%= link_to post, class: "level-item" do %>
+  					  <span class="icon"><i class="fa fa-eye" aria-hidden="true"></i></span>
+  					<% end %>
+  					<%= link_to edit_post_path(post), class: "level-item" do %>
+  					  <span class="icon"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+  					<% end %>
+  					<%= link_to post, method: :delete, data: { confirm: "Sei sicuro di voler rimuovere il messaggio?" } do %>
+                    <span class="icon"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+  					<% end %>
+  				</div>
+  			</nav>
+        <% end %>
+  		</div>
+  	</article>
+  </div>
+<% end %>
+</div>

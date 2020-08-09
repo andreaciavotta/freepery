@@ -1,0 +1,44 @@
+<section class="form-auth text-center">
+<h1>Centro notifiche</h1><br>
+<h5>Notifiche non lette: <%= current_account.notifications.where(read: false).count %></h5><br/>
+<% current_account.notifications.where(read: false).each do |unread| %>
+<div class="box">
+  	<article class="media">
+  		<div class="media-left">
+  			<figure class="image is-64x64">
+  				<%= gravatar_image_tag(unread.account.email, size: 64, alt: unread.account.username) %>
+  			</figure>
+  		</div>
+  		<div class="media-content">
+  			<div class="content">
+  				<%=link_to(unread.notified_by.first_name + " " + unread.notified_by.last_name, profile_path(unread.notified_by.id) )%> <%= link_to "ha #{unread.notice_type} il tuo messaggio", link_through_path(unread) %>
+                <br>
+                <p><em><small><%= time_ago_in_words(unread.created_at) %> ago</small></em></p>
+  			</div>
+        </div>
+     </article>
+</div>
+<% end %>
+<br>
+<hr>
+<h5>Notifiche lette: <%= current_account.notifications.where(read: true).count %></h5><br/>
+<% current_account.notifications.where(read: true).order("created_at DESC").each do |read| %>
+<div class="box">
+  	<article class="media">
+  		<div class="media-left">
+  			<figure class="image is-64x64">
+  				<%= gravatar_image_tag(read.account.email, size: 64, alt: read.account.username) %>
+  			</figure>
+  		</div>
+  		<div class="media-content">
+  			<div class="content">
+  				<%=link_to(read.notified_by.first_name + " " + read.notified_by.last_name, profile_path(read.notified_by.id) )%> <%= link_to "ha #{read.notice_type} il tuo messaggio", link_through_path(read) %>
+                <br>
+                <p><em><small><%= time_ago_in_words(read.created_at) %> ago</small></em></p>
+  			</div>
+        </div>
+     </article>
+</div>
+<% end %>
+
+</section>

@@ -1,0 +1,63 @@
+<section class="form-auth text-center">
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+  <h1 class="h3 mb-3 font-weight-normal">Iscriviti ora, è gratis!</h1>
+
+    <%= f.text_field :first_name, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "Nome" %><br>
+
+
+    <%= f.text_field :last_name, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "Cognome" %><br>
+
+
+    <%= f.text_field :username, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "Username" %><br>
+
+    Città di residenza: <%= f.text_field :address, placeholder: "Inserisci città", id: :autocomplete_address %><br><br>
+
+    Data di nascita: <%= f.label :birthday, "Birthday" %><%= f.date_select :birthday,  min: Date.today, start_year: 1940, autofocus: true, class: "form-control", placeholder: "Data di nascita" %><br>
+
+
+    <br><%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "Email" %><br>
+
+
+    <% if @minimum_password_length %>
+    <em>(<%= @minimum_password_length %> caratteri minimo)</em>
+    <% end %><br />
+    <%= f.password_field :password, autocomplete: "new-password", class: "form-control", placeholder: "Password" %><br>
+
+    <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", placeholder: "Conferma Password" %><br>
+
+
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Iscriviti</button>
+
+
+<% end %>
+
+<%= render "devise/shared/links" %>
+</section>
+
+<script>
+  function initAutocomplete() {
+    // Create the search box and link it to the UI element.
+    var input = document.getElementById('autocomplete_address');
+    var searchBox = new google.maps.places.SearchBox(input);
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+    // Bias the SearchBox results towards current map's viewport.
+    map.addListener('bounds_changed', function() {
+      searchBox.setBounds(map.getBounds());
+    });
+
+    // Listen for the event fired when the user selects a prediction and retrieve
+    // more details for that place.
+    searchBox.addListener('places_changed', function() {
+      var places = searchBox.getPlaces();
+
+      if (places.length == 0) {
+        return;
+      }
+    });
+  }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=API_KEY&libraries=places&callback=initAutocomplete"
+   async defer></script>

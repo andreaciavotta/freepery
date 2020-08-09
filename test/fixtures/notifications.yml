@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  account: one
+  subscribed_account: one
+  post: one
+  identifier: 1
+  type: 
+  read: false
+
+two:
+  account: two
+  subscribed_account: two
+  post: two
+  identifier: 1
+  type: 
+  read: false

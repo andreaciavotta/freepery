@@ -1,0 +1,25 @@
+<div class="column is-3">
+	<nav class="panel">
+		<p class="panel-heading">Utenti più attivi</p>
+        <% @users.where("posts_count > 0").order("posts_count DESC").each do | account | %>
+        <div class="panel-block">
+            <article class="media">
+                <div class="media-left">
+                    <figure class="image is-32x32">
+                        <%= gravatar_image_tag(account.email, size: 64, alt: account.name) %>
+                    </figure>
+                </div>
+                <div class="media-content">
+                    <div class="content">
+                        <p>
+                            <strong><%=link_to(account.first_name + " " + account.last_name, profile_path(account.id))%></strong><br>
+                            <small><%= account.username %></small><br/>
+                            <small> Posts: <%= account.posts_count %></small><br/>
+                        </p>
+                    </div>
+                </div>
+            </article>
+        </div>
+        <% end %>
+        </nav>
+    </div>

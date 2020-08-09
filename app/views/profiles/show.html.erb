@@ -1,0 +1,11 @@
+<section class="section">
+  <div class="container">
+    <div class="columns">
+     <% if account_signed_in? %>
+      <%= render 'profile' %>
+      <%= render 'posts' %>
+      <%= render 'nearbyusers' %>
+    <% end %>
+    </div>
+  </div>
+</section>

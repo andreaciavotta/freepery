@@ -1,0 +1,75 @@
+<section class="form-auth text-center">
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+  <h1 class="h3 mb-3 font-weight-normal">Modifica il tuo profilo</h1>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autofocus: true, class: "form-control", autocomplete: "email" %>
+  </div>
+  <br /> <br />
+
+  Città di residenza: <%= f.text_field :address, placeholder: "Inserisci città", id: :autocomplete_address %><br><br>
+
+  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :password %> <br />
+    <%= f.password_field :password, class: "form-control", autocomplete: "new-password" %>
+    <% if @minimum_password_length %>
+      <br />
+      <em><%= @minimum_password_length %> caratteri minimo</em>
+    <% end %>
+  </div>
+  <br />
+
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, class: "form-control", autocomplete: "new-password" %>
+  </div>
+  <br />
+
+  <div class="field">
+    <%= f.label :current_password %> <i>(è necessaria la tua password corrente per confermare i cambiamenti)</i><br />
+    <%= f.password_field :current_password, class: "form-control", autocomplete: "current-password" %>
+  </div>
+  <br />
+
+ <button class="btn btn-lg btn-primary btn-block" type="submit">Aggiorna</button>
+ <% end %>
+ <br />
+
+<h3>Rimuovi account</h3>
+
+<p>Vuoi cancellare il tuo account? <%= button_to "Cancella Account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
+
+<%= link_to "Back", :back %>
+</section>
+<script>
+  function initAutocomplete() {
+    // Create the search box and link it to the UI element.
+    var input = document.getElementById('autocomplete_address');
+    var searchBox = new google.maps.places.SearchBox(input);
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+    // Bias the SearchBox results towards current map's viewport.
+    map.addListener('bounds_changed', function() {
+      searchBox.setBounds(map.getBounds());
+    });
+
+    // Listen for the event fired when the user selects a prediction and retrieve
+    // more details for that place.
+    searchBox.addListener('places_changed', function() {
+      var places = searchBox.getPlaces();
+
+      if (places.length == 0) {
+        return;
+      }
+    });
+  }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=API_KEY&libraries=places&callback=initAutocomplete"
+   async defer></script>

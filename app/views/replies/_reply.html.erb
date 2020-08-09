@@ -1,0 +1,35 @@
+<div class="box">
+  <article class="media">
+    <div class="media-left">
+      <figure class="image is-48x48">
+        <%= gravatar_image_tag(reply.account.email, class: 'border-radius-50', size: 48, alt: reply.account.username) %>
+      </figure>
+    </div>
+    <div class="media-content">
+      <div class="content">
+        <p>
+          <strong><%=link_to(reply.account.first_name + " " + reply.account.last_name, profile_path(reply.account_id) )%></strong> <br/><small><%= time_ago_in_words(reply.created_at) %> ago</small>
+          <br/>
+          <%= reply.reply %>
+        </p>
+      </div>
+      <% if current_account.id == reply.account_id || has_role?(:admin) || current_account.id == reply.post.account_id %>
+      <nav class="level is-mobile">
+        <div class="level-left">
+          <a class="level-item">
+            <%= link_to edit_post_reply_path(reply.post, reply) do %>
+            <span class="icon is-small"><i class="fa fa-pencil"></i></span>
+            <% end %>
+          </a>
+          <a class="level-item">
+            <%= link_to [reply.post, reply],
+                method: :delete, data: {confirm: "Sei sicuro ?" } do %>
+            <span class="icon is-small"><i class="fa fa-trash-o"></i></span>
+            <% end %>
+          </a>
+        </div>
+      </nav>
+    <% end %>
+    </div>
+  </article>
+</div>

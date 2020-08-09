@@ -1,0 +1,45 @@
+<div class="column is-one-quarter">
+	<nav class="panel">
+		<p class="panel-heading">Profilo</p>
+		<div class="panel-block">
+			<article class="media">
+				<div class="media-left">
+					<figure class="image is-64x64">
+						<%= gravatar_image_tag(current_account.email, size: 64, alt: current_account.name) %>
+					</figure>
+				</div>
+				<div class="media-content">
+					<div class="content">
+						<p>
+							<strong><%= current_account.first_name + " " + current_account.last_name %></strong><br />
+							<small><%= current_account.username %></small><br />
+                            <small>Compleanno: <%= current_account.birthday %></small>
+						</p>
+					</div>
+				</div>
+			</article>
+		</div>
+		<div class="panel-block">
+			<div class="level is-mobile">
+				<div class="level-item has-centered-text">
+					<div>
+						<p class="heading">posts</p>
+						<p class="title is-6"><%= current_account.posts.count %></p>
+					</div>
+				</div>
+				<div class="level-item has-centered-text">
+					<div>
+						<p class="heading">Likes</p>
+						<p class="title is-6"><%= current_account.likes.count%></p>
+					</div>
+				</div>
+					<div class="level-item has-centered-text">
+					<div>
+						<p class="heading">Commenti</p>
+						<p class="title is-6">9</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</nav>
+</div>

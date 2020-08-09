@@ -1,0 +1,26 @@
+<div class="column">
+	<nav class="panel">
+		<p class="panel-heading">Utenti nelle vicinanze</p>
+        <% @nearby_users.each do |account| %>
+        <div class="panel-block">
+            <article class="media">
+                <div class="media-left">
+                    <figure class="image is-32x32">
+                        <%= gravatar_image_tag(account.email, size: 64, alt: account.name) %>
+                    </figure>
+                </div>
+                <div class="media-content">
+                    <div class="content">
+                            <strong><%=link_to(account.first_name + " " + account.last_name, profile_path(account.id) )%></strong><br/>
+                            <small><i class="fa fa-map-marker" aria-hidden="true"></i> <%= link_to account.address, "http://maps.googleapis.com/maps/api/staticmap?center=#{account.latitude},#{account.longitude}&markers=#{account.latitude},#{account.longitude}&zoom=7&size=640x400&key=AIzaSyCQIh8MGEehUptz2u7vr8JbRvyvB6mA4M8" %></small><br/>
+                            <% if current_account.latitude? && current_account.longitude? %>
+                            <small>Distanza: <% distance = Geocoder::Calculations.distance_between(current_account, account) %><%= distance.to_i.to_s %> Km</small><br/>
+                            <% end %>
+                        </p>
+                    </div>
+                </div>
+            </article>
+        </div>
+        <% end %>
+        </nav>
+    </div>
